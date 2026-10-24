@@ -1,0 +1,47 @@
+<idea-plugin>
+    <id>com.winscript.support</id>
+    <name>WinScript Support</name>
+    <version>0.1.0</version>
+    <vendor>linxunxr</vendor>
+
+    <description><![CDATA[
+    Out-of-the-box basic support for Windows scripts in IntelliJ Platform:
+    <ul>
+        <li>Syntax highlighting for Batch (.bat/.cmd) and PowerShell (.ps1)</li>
+        <li>Run configurations for Batch / PowerShell scripts and arbitrary shell commands</li>
+        <li>No external services required</li>
+    </ul>
+    ]]></description>
+
+    <depends>com.intellij.modules.platform</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <!-- 文件类型 -->
+        <fileType name="Batch Script"
+                  language="Batch"
+                  implementationClass="com.winscript.support.batch.BatchFileType"
+                  extensions="bat;cmd"/>
+        <fileType name="PowerShell Script"
+                  language="PowerShell"
+                  implementationClass="com.winscript.support.powershell.PowerShellFileType"
+                  extensions="ps1"/>
+
+        <!-- 语法高亮 -->
+        <lang.syntaxHighlighterFactory language="Batch"
+                                       implementationClass="com.winscript.support.batch.highlight.BatchSyntaxHighlighterFactory"/>
+        <lang.syntaxHighlighterFactory language="PowerShell"
+                                       implementationClass="com.winscript.support.powershell.highlight.PowerShellSyntaxHighlighterFactory"/>
+
+        <!-- 运行配置 -->
+        <configurationType
+                implementation="com.winscript.support.execution.batch.BatchRunConfigurationType"/>
+        <configurationType
+                implementation="com.winscript.support.execution.powershell.PowerShellRunConfigurationType"/>
+
+        <!-- 全局设置（WinScriptSettings 使用 @Service 注解注册） -->
+        <applicationConfigurable
+                instance="com.winscript.support.settings.WinScriptConfigurable"
+                id="com.winscript.support.settings"
+                displayName="WinScript Support"/>
+    </extensions>
+</idea-plugin>

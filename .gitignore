@@ -1,6 +1,11 @@
 # Gradle
 .gradle/
 build/
+.kotlin/
+.intellijPlatform/
+
+# 产物与调试转储
+*.hprof
 
 # IntelliJ IDEA
 .idea/
