@@ -37,6 +37,14 @@
                 implementation="com.winscript.support.execution.batch.BatchRunConfigurationType"/>
         <configurationType
                 implementation="com.winscript.support.execution.powershell.PowerShellRunConfigurationType"/>
+        <configurationType
+                implementation="com.winscript.support.execution.command.CommandRunConfigurationType"/>
+
+        <!-- 右键 / Run 菜单直接运行 -->
+        <runConfigurationProducer
+                implementation="com.winscript.support.execution.batch.BatchRunConfigurationProducer"/>
+        <runConfigurationProducer
+                implementation="com.winscript.support.execution.powershell.PowerShellRunConfigurationProducer"/>
 
         <!-- 全局设置（WinScriptSettings 使用 @Service 注解注册） -->
         <applicationConfigurable

@@ -1,6 +1,7 @@
 package com.winscript.support.execution.batch;
 
 import com.intellij.execution.configurations.ConfigurationFactory;
+import com.intellij.execution.configurations.ConfigurationType;
 import com.intellij.execution.configurations.ConfigurationTypeBase;
 import com.intellij.execution.configurations.RunConfiguration;
 import com.intellij.icons.AllIcons;
@@ -17,6 +18,10 @@ public final class BatchRunConfigurationType extends ConfigurationTypeBase {
     public BatchRunConfigurationType() {
         super(ID, "Batch Script", "Run a Windows Batch script (.bat / .cmd)", AllIcons.FileTypes.Text);
         addFactory(new BatchConfigurationFactory(this));
+    }
+
+    public static BatchRunConfigurationType getInstance() {
+        return ConfigurationType.CONFIGURATION_TYPE_EP.findExtensionOrFail(BatchRunConfigurationType.class);
     }
 
     public static final class BatchConfigurationFactory extends ConfigurationFactory {

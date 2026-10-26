@@ -1,6 +1,7 @@
 package com.winscript.support.execution.powershell;
 
 import com.intellij.execution.configurations.ConfigurationFactory;
+import com.intellij.execution.configurations.ConfigurationType;
 import com.intellij.execution.configurations.ConfigurationTypeBase;
 import com.intellij.execution.configurations.RunConfiguration;
 import com.intellij.icons.AllIcons;
@@ -17,6 +18,10 @@ public final class PowerShellRunConfigurationType extends ConfigurationTypeBase 
     public PowerShellRunConfigurationType() {
         super(ID, "PowerShell Script", "Run a PowerShell script (.ps1)", AllIcons.FileTypes.Text);
         addFactory(new PowerShellConfigurationFactory(this));
+    }
+
+    public static PowerShellRunConfigurationType getInstance() {
+        return ConfigurationType.CONFIGURATION_TYPE_EP.findExtensionOrFail(PowerShellRunConfigurationType.class);
     }
 
     public static final class PowerShellConfigurationFactory extends ConfigurationFactory {

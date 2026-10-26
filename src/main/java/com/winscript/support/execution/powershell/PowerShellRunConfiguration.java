@@ -65,23 +65,11 @@ public final class PowerShellRunConfiguration
             commandLine.setWorkDirectory(script.getParentFile());
         }
 
-        Charset charset = resolveCharset();
+        Charset charset = resolveConsoleCharset();
         if (charset != null) {
             commandLine.setCharset(charset);
         }
         return commandLine;
-    }
-
-    private Charset resolveCharset() {
-        String encoding = WinScriptSettings.getInstance().getConsoleEncoding();
-        if (encoding == null || encoding.isBlank()) {
-            return null;
-        }
-        try {
-            return Charset.forName(encoding);
-        } catch (Exception e) {
-            return null;
-        }
     }
 
     @Override

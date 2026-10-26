@@ -15,8 +15,11 @@ import com.intellij.execution.process.ProcessHandler;
 import com.intellij.execution.runners.ExecutionEnvironment;
 import com.intellij.openapi.options.SettingsEditor;
 import com.intellij.openapi.project.Project;
+import com.winscript.support.settings.WinScriptSettings;
 import org.jdom.Element;
 import org.jetbrains.annotations.NotNull;
+
+import java.nio.charset.Charset;
 
 /**
  * Batch / PowerShell 运行配置的公共骨架：字段存取、宏解析、进程启动路径、持久化。
@@ -62,9 +65,24 @@ public abstract class ScriptRunConfigurationBase<O extends ScriptRunConfiguratio
     }
 
     @Override
-    public final void checkConfiguration() throws RuntimeConfigurationException {
+    public void checkConfiguration() throws RuntimeConfigurationException {
         if (getScriptPath().isBlank()) {
             throw new RuntimeConfigurationError("Script path is not set");
+        }
+    }
+
+    /**
+     * 控制台编码：取全局设置，未配置或非法时返回 null（跟随系统）。
+     */
+    protected final Charset resolveConsoleCharset() {
+        String encoding = WinScriptSettings.getInstance().getConsoleEncoding();
+        if (encoding == null || encoding.isBlank()) {
+            return null;
+        }
+        try {
+            return Charset.forName(encoding);
+        } catch (Exception e) {
+            return null;
         }
     }
 
