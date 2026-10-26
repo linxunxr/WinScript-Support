@@ -31,6 +31,11 @@ public final class PowerShellRunConfigurationType extends ConfigurationTypeBase 
         }
 
         @Override
+        public @NotNull String getId() {
+            return "winscript.powershell.factory";
+        }
+
+        @Override
         public @NotNull RunConfiguration createTemplateConfiguration(@NotNull Project project) {
             return new PowerShellRunConfiguration(project, this, "PowerShell Script");
         }

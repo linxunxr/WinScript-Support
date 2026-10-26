@@ -31,6 +31,11 @@ public final class BatchRunConfigurationType extends ConfigurationTypeBase {
         }
 
         @Override
+        public @NotNull String getId() {
+            return "winscript.batch.factory";
+        }
+
+        @Override
         public @NotNull RunConfiguration createTemplateConfiguration(@NotNull Project project) {
             return new BatchRunConfiguration(project, this, "Batch Script");
         }

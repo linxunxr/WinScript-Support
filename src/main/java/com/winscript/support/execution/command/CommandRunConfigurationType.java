@@ -31,6 +31,11 @@ public final class CommandRunConfigurationType extends ConfigurationTypeBase {
         }
 
         @Override
+        public @NotNull String getId() {
+            return "winscript.command.factory";
+        }
+
+        @Override
         public @NotNull RunConfiguration createTemplateConfiguration(@NotNull Project project) {
             return new CommandRunConfiguration(project, this, "Shell Command");
         }
