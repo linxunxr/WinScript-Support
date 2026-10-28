@@ -27,6 +27,11 @@ public final class BatchRunConfiguration extends ScriptRunConfigurationBase<Scri
     }
 
     @Override
+    protected @NotNull Class<ScriptRunConfigurationOptions> getOptionsClass() {
+        return ScriptRunConfigurationOptions.class;
+    }
+
+    @Override
     protected @NotNull GeneralCommandLine buildCommandLine() throws ExecutionException {
         String scriptPath = ScriptCommandLineBuilder.expand(getProject(), getScriptPath());
         File script = new File(scriptPath);

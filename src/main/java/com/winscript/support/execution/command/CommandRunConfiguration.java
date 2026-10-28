@@ -26,6 +26,11 @@ public final class CommandRunConfiguration extends ScriptRunConfigurationBase<Co
         super(project, factory, name);
     }
 
+    @Override
+    protected @NotNull Class<CommandRunConfigurationOptions> getOptionsClass() {
+        return CommandRunConfigurationOptions.class;
+    }
+
     public String getCommandLine() {
         return getOptions().getCommandLine();
     }

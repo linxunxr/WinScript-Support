@@ -33,6 +33,13 @@ public abstract class ScriptRunConfigurationBase<O extends ScriptRunConfiguratio
         super(project, factory, name);
     }
 
+    /**
+     * 2025.3 平台通过本方法实例化 Options；默认的泛型解析无法穿透中间泛型层
+     * （会回退成原生 RunConfigurationOptions 导致强转失败），故提升为抽象方法由具体子类声明。
+     */
+    @Override
+    protected abstract @NotNull Class<? extends ScriptRunConfigurationOptions> getOptionsClass();
+
     @Override
     protected @NotNull O getOptions() {
         @SuppressWarnings("unchecked")

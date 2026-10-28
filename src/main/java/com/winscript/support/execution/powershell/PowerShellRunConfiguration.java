@@ -27,6 +27,11 @@ public final class PowerShellRunConfiguration
         super(project, factory, name);
     }
 
+    @Override
+    protected @NotNull Class<PowerShellRunConfigurationOptions> getOptionsClass() {
+        return PowerShellRunConfigurationOptions.class;
+    }
+
     public String getExecutionPolicy() {
         return getOptions().getExecutionPolicy();
     }
