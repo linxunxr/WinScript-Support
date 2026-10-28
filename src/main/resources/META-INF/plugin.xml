@@ -36,6 +36,12 @@
         <colorSettingsPage implementation="com.winscript.support.batch.highlight.BatchColorSettingsPage"/>
         <colorSettingsPage implementation="com.winscript.support.powershell.highlight.PowerShellColorSettingsPage"/>
 
+        <!-- 错误标注 -->
+        <annotator language="Batch"
+                   implementationClass="com.winscript.support.batch.annotator.BatchErrorAnnotator"/>
+        <annotator language="PowerShell"
+                   implementationClass="com.winscript.support.powershell.annotator.PowerShellErrorAnnotator"/>
+
         <!-- 运行配置 -->
         <configurationType
                 implementation="com.winscript.support.execution.batch.BatchRunConfigurationType"/>

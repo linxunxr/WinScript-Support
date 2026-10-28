@@ -51,6 +51,10 @@ public final class PowerShellRunConfiguration
         commandLine.addParameter("-NoLogo");
         commandLine.addParameter("-NoProfile");
         String policy = getExecutionPolicy();
+        if (policy == null || policy.isBlank()) {
+            // 配置未指定时回退全局默认
+            policy = com.winscript.support.settings.WinScriptSettings.getInstance().getDefaultExecutionPolicy();
+        }
         if (policy != null && !policy.isBlank()) {
             commandLine.addParameter("-ExecutionPolicy");
             commandLine.addParameter(policy);

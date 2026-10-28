@@ -18,6 +18,7 @@ class WinScriptSettings : PersistentStateComponent<WinScriptSettings.State> {
         var batchInterpreter: String? = null
         var powerShellInterpreter: String? = null
         var consoleEncoding: String? = null
+        var defaultExecutionPolicy: String? = null
     }
 
     private var myState = State()
@@ -42,11 +43,18 @@ class WinScriptSettings : PersistentStateComponent<WinScriptSettings.State> {
             myState.powerShellInterpreter = value?.trim()?.takeIf { it.isNotEmpty() }
         }
 
-    /** 控制台编码（如 UTF-8 / GBK），未配置为 null（跟随系统）。 */
+    /** 控制台编码（如 UTF-8 / GBK），未配置为 null（跟随语言默认）。 */
     var consoleEncoding: String?
         get() = myState.consoleEncoding
         set(value) {
             myState.consoleEncoding = value?.trim()?.takeIf { it.isNotEmpty() }
+        }
+
+    /** PowerShell 执行策略默认值（Bypass / RemoteSigned），未配置为 null（不干预）。 */
+    var defaultExecutionPolicy: String?
+        get() = myState.defaultExecutionPolicy
+        set(value) {
+            myState.defaultExecutionPolicy = value?.trim()?.takeIf { it.isNotEmpty() }
         }
 
     companion object {
