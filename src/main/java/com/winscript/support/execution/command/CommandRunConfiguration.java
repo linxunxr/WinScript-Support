@@ -73,7 +73,7 @@ public final class CommandRunConfiguration extends ScriptRunConfigurationBase<Co
 
     @Override
     protected @NotNull com.intellij.openapi.options.SettingsEditor<? extends ScriptRunConfigurationBase<CommandRunConfigurationOptions>> createSettingsEditor() {
-        return new CommandSettingsEditor();
+        return new CommandSettingsEditor(getProject());
     }
 
     @Override

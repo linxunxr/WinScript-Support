@@ -39,14 +39,16 @@ public final class BatchRunConfiguration extends ScriptRunConfigurationBase<Scri
         commandLine.addParameter("/c");
         commandLine.addParameter("call");
         commandLine.addParameter(script.getAbsolutePath());
-        List<String> parameters = ParametersListUtil.parse(getScriptParameters());
+        List<String> parameters = ParametersListUtil.parse(
+                ScriptCommandLineBuilder.expand(getProject(), getScriptParameters(), scriptPath));
         for (String parameter : parameters) {
             commandLine.addParameter(parameter);
         }
 
         String workingDirectory = getWorkingDirectory();
         if (workingDirectory != null && !workingDirectory.isBlank()) {
-            commandLine.setWorkDirectory(new File(ScriptCommandLineBuilder.expand(getProject(), workingDirectory)));
+            commandLine.setWorkDirectory(new File(
+                    ScriptCommandLineBuilder.expand(getProject(), workingDirectory, scriptPath)));
         } else {
             commandLine.setWorkDirectory(script.getParentFile());
         }
@@ -60,6 +62,6 @@ public final class BatchRunConfiguration extends ScriptRunConfigurationBase<Scri
 
     @Override
     protected @NotNull com.intellij.openapi.options.SettingsEditor<? extends ScriptRunConfigurationBase<ScriptRunConfigurationOptions>> createSettingsEditor() {
-        return new BatchSettingsEditor();
+        return new BatchSettingsEditor(getProject());
     }
 }
