@@ -14,7 +14,7 @@ import org.jetbrains.annotations.NotNull;
 public final class BatchRunConfigurationProducer extends RunConfigurationProducer<BatchRunConfiguration> {
 
     public BatchRunConfigurationProducer() {
-        super(BatchRunConfigurationType.getInstance());
+        super(BatchRunConfigurationType.getInstance().getConfigurationFactories()[0]);
     }
 
     @Override

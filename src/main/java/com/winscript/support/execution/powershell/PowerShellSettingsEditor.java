@@ -6,6 +6,7 @@ import com.intellij.openapi.options.SettingsEditor;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.util.ui.FormBuilder;
+import com.winscript.support.powershell.PowerShellFileType;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
@@ -45,7 +46,7 @@ public final class PowerShellSettingsEditor extends SettingsEditor<PowerShellRun
             VirtualFile chosen = FileChooser.chooseFile(
                     directoryOnly
                             ? FileChooserDescriptorFactory.createSingleFolderDescriptor()
-                            : FileChooserDescriptorFactory.createSingleFileDescriptor(),
+                            : FileChooserDescriptorFactory.createSingleFileDescriptor(PowerShellFileType.INSTANCE),
                     project, null);
             if (chosen != null) {
                 field.setText(chosen.getPath());

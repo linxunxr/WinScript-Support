@@ -15,7 +15,7 @@ public final class PowerShellRunConfigurationProducer
         extends RunConfigurationProducer<PowerShellRunConfiguration> {
 
     public PowerShellRunConfigurationProducer() {
-        super(PowerShellRunConfigurationType.getInstance());
+        super(PowerShellRunConfigurationType.getInstance().getConfigurationFactories()[0]);
     }
 
     @Override

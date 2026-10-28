@@ -6,6 +6,7 @@ import com.intellij.openapi.options.SettingsEditor;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.util.ui.FormBuilder;
+import com.winscript.support.batch.BatchFileType;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
@@ -40,7 +41,7 @@ public final class BatchSettingsEditor extends SettingsEditor<BatchRunConfigurat
             VirtualFile chosen = FileChooser.chooseFile(
                     directoryOnly
                             ? FileChooserDescriptorFactory.createSingleFolderDescriptor()
-                            : FileChooserDescriptorFactory.createSingleFileDescriptor(),
+                            : FileChooserDescriptorFactory.createSingleFileDescriptor(BatchFileType.INSTANCE),
                     project, null);
             if (chosen != null) {
                 field.setText(chosen.getPath());

@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "com.winscript"
-version = "0.1.0"
+version = "0.1.1"
 
 repositories {
     mavenCentral()
@@ -38,6 +38,7 @@ java {
 tasks {
     withType<JavaCompile> {
         options.encoding = "UTF-8"
+        options.compilerArgs.add("-Xlint:deprecation")
     }
     test {
         useJUnitPlatform()
