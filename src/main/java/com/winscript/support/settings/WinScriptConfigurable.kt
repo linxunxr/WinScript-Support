@@ -29,7 +29,7 @@ class WinScriptConfigurable : SearchableConfigurable {
             .addLabeledComponent("PowerShell interpreter:", powershellInterpreterField)
             .addTooltip("Leave empty to auto-detect: pwsh.exe on PATH first, then powershell.exe")
             .addLabeledComponent("Console encoding:", consoleEncodingField)
-            .addTooltip("e.g. UTF-8 or GBK; leave empty to follow the system default")
+            .addTooltip("e.g. UTF-8 or GBK; leave empty for language default (cmd = system code page, pwsh = UTF-8)")
             .panel
         return panel!!
     }

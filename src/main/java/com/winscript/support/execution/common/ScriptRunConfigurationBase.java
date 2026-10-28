@@ -79,17 +79,37 @@ public abstract class ScriptRunConfigurationBase<O extends ScriptRunConfiguratio
     }
 
     /**
-     * 控制台编码：取全局设置，未配置或非法时返回 null（跟随系统）。
+     * 控制台编码：全局设置优先；未配置时使用 {@link #defaultConsoleCharset()}。
      */
     protected final Charset resolveConsoleCharset() {
         String encoding = WinScriptSettings.getInstance().getConsoleEncoding();
-        if (encoding == null || encoding.isBlank()) {
-            return null;
+        if (encoding != null && !encoding.isBlank()) {
+            try {
+                return Charset.forName(encoding);
+            } catch (Exception e) {
+                // 非法编码名回退到语言默认
+            }
         }
+        Charset fallback = defaultConsoleCharset();
+        return fallback != null ? fallback : Charset.defaultCharset();
+    }
+
+    /**
+     * 语言默认控制台编码；返回 null 表示跟随 JVM 默认。
+     */
+    protected Charset defaultConsoleCharset() {
+        return null;
+    }
+
+    /**
+     * 系统原生控制台代码页（如中文 Windows 的 GBK）。
+     * JDK 18+ 的 Charset.defaultCharset() 恒为 UTF-8，不能反映控制台实际编码。
+     */
+    protected static Charset nativeConsoleCharset() {
         try {
-            return Charset.forName(encoding);
+            return Charset.forName(System.getProperty("sun.jnu.encoding"));
         } catch (Exception e) {
-            return null;
+            return Charset.defaultCharset();
         }
     }
 

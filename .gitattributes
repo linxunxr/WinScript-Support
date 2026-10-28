@@ -1,1 +1,5 @@
 * text=auto
+# Windows 脚本必须 CRLF：cmd.exe 解析 LF-only 批处理会错位
+*.bat text eol=crlf
+*.cmd text eol=crlf
+*.ps1 text eol=crlf

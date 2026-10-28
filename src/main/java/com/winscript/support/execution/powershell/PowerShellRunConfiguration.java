@@ -8,7 +8,6 @@ import com.intellij.openapi.options.SettingsEditor;
 import com.intellij.openapi.project.Project;
 import com.winscript.support.execution.common.ScriptCommandLineBuilder;
 import com.winscript.support.execution.common.ScriptRunConfigurationBase;
-import com.winscript.support.settings.WinScriptSettings;
 import org.jdom.Element;
 import org.jetbrains.annotations.NotNull;
 
@@ -73,10 +72,20 @@ public final class PowerShellRunConfiguration
         }
 
         Charset charset = resolveConsoleCharset();
-        if (charset != null) {
-            commandLine.setCharset(charset);
-        }
+        commandLine.setCharset(charset);
         return commandLine;
+    }
+
+    /**
+     * pwsh（PowerShell 7+）重定向输出默认 UTF-8；Windows PowerShell 5.1 为系统代码页。
+     */
+    @Override
+    protected Charset defaultConsoleCharset() {
+        String interpreter = PowerShellInterpreterDetector.detect().toLowerCase(java.util.Locale.ROOT);
+        if (interpreter.endsWith("pwsh.exe") || interpreter.endsWith("pwsh")) {
+            return java.nio.charset.StandardCharsets.UTF_8;
+        }
+        return nativeConsoleCharset();
     }
 
     @Override

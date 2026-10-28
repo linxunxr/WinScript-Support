@@ -9,7 +9,6 @@ import com.winscript.support.execution.common.ScriptCommandLineBuilder;
 import com.winscript.support.execution.common.ScriptRunConfigurationBase;
 import com.winscript.support.execution.common.ScriptRunConfigurationOptions;
 import com.winscript.support.execution.common.ShellPathResolver;
-import com.winscript.support.settings.WinScriptSettings;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
@@ -59,10 +58,16 @@ public final class BatchRunConfiguration extends ScriptRunConfigurationBase<Scri
         }
 
         Charset charset = resolveConsoleCharset();
-        if (charset != null) {
-            commandLine.setCharset(charset);
-        }
+        commandLine.setCharset(charset);
         return commandLine;
+    }
+
+    /**
+     * cmd.exe 输出使用系统控制台代码页（中文 Windows 为 GBK）。
+     */
+    @Override
+    protected Charset defaultConsoleCharset() {
+        return nativeConsoleCharset();
     }
 
     @Override

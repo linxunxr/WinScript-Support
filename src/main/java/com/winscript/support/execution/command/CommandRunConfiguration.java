@@ -70,10 +70,16 @@ public final class CommandRunConfiguration extends ScriptRunConfigurationBase<Co
         }
 
         Charset charset = resolveConsoleCharset();
-        if (charset != null) {
-            commandLine.setCharset(charset);
-        }
+        commandLine.setCharset(charset);
         return commandLine;
+    }
+
+    /**
+     * 与 cmd.exe 一致：系统控制台代码页。
+     */
+    @Override
+    protected Charset defaultConsoleCharset() {
+        return nativeConsoleCharset();
     }
 
     @Override
