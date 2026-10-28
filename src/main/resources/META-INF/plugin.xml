@@ -32,6 +32,10 @@
         <lang.syntaxHighlighterFactory language="PowerShell"
                                        implementationClass="com.winscript.support.powershell.highlight.PowerShellSyntaxHighlighterFactory"/>
 
+        <!-- 配色设置页 -->
+        <colorSettingsPage implementation="com.winscript.support.batch.highlight.BatchColorSettingsPage"/>
+        <colorSettingsPage implementation="com.winscript.support.powershell.highlight.PowerShellColorSettingsPage"/>
+
         <!-- 运行配置 -->
         <configurationType
                 implementation="com.winscript.support.execution.batch.BatchRunConfigurationType"/>
