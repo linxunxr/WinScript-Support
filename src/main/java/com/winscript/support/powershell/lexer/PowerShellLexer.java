@@ -35,6 +35,10 @@ public final class PowerShellLexer extends LexerBase {
 
     private static final String OPERATOR_CHARS = "(){}[],;=<>+-*/%!&|";
 
+    /** 数字字面量：十进制（可带下划线/小数）、十六进制、K/KB…T/TB 后缀。 */
+    private static final java.util.regex.Pattern NUMBER_PATTERN =
+            java.util.regex.Pattern.compile("(?i)(0x[0-9a-f_]+|\\d[\\d_]*(\\.\\d[\\d_]*)?)(kb|k|mb|m|gb|g|tb|t|d|l)?");
+
     private CharSequence buffer;
     private int bufferEnd;
     private int tokenStart;
@@ -150,6 +154,14 @@ public final class PowerShellLexer extends LexerBase {
             tokenEnd = pos + 1;
             return PowerShellTokens.OPERATOR;
         }
+        if (c == '`') {
+            // 串外反引号转义（含续行）：吃掉 ` 与下一字符，避免 0 宽 token 死循环
+            tokenEnd = Math.min(pos + 2, bufferEnd);
+            return PowerShellTokens.ESCAPE;
+        }
+        if (c == '[' && pos + 1 < bufferEnd && Character.isLetter(buffer.charAt(pos + 1))) {
+            return typeExpression(pos);
+        }
         if (c == '-' ) {
             return dashToken(pos);
         }
@@ -253,14 +265,45 @@ public final class PowerShellLexer extends LexerBase {
         return PARAM_OPERATORS.contains(token) ? PowerShellTokens.OPERATOR : PowerShellTokens.WORD;
     }
 
+    private IElementType typeExpression(int pos) {
+        // [string] / [int[]] / [System.String] / [Parameter(Mandatory)]：
+        // '[' 后以字母开头、无空白、方括号配对到行内的完整表达式；不满足则回退单字符运算符
+        int scan = pos + 1;
+        int depth = 1;
+        while (scan < bufferEnd) {
+            char ch = buffer.charAt(scan);
+            if (ch == '\n' || ch == '\r' || ch == ' ' || ch == '\t') {
+                break;
+            }
+            if (ch == '[') {
+                depth++;
+            } else if (ch == ']') {
+                depth--;
+                if (depth == 0) {
+                    tokenEnd = scan + 1;
+                    return PowerShellTokens.TYPE;
+                }
+            }
+            scan++;
+        }
+        tokenEnd = pos + 1;
+        return PowerShellTokens.OPERATOR;
+    }
+
     private IElementType word(int pos) {
         int scan = pos;
         while (scan < bufferEnd && isWordChar(buffer.charAt(scan))) {
             scan++;
         }
         tokenEnd = scan;
-        String word = buffer.subSequence(pos, scan).toString().toLowerCase(Locale.ROOT);
-        return KEYWORDS.contains(word) ? PowerShellTokens.KEYWORD : PowerShellTokens.WORD;
+        String word = buffer.subSequence(pos, scan).toString();
+        if (KEYWORDS.contains(word.toLowerCase(Locale.ROOT))) {
+            return PowerShellTokens.KEYWORD;
+        }
+        if (NUMBER_PATTERN.matcher(word).matches()) {
+            return PowerShellTokens.NUMBER;
+        }
+        return PowerShellTokens.WORD;
     }
 
     private int scanToEndOfLine(int pos) {

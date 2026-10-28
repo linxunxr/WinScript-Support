@@ -97,7 +97,7 @@ public final class BatchLexer extends LexerBase {
         if (c == ':') {
             return colon(pos);
         }
-        if (isLineStart() && matchesRem(pos)) {
+        if ((isLineStart() || afterAmpersand()) && matchesRem(pos)) {
             return finishComment(scanToEndOfLine(pos));
         }
         if (c == '%') {
@@ -207,12 +207,52 @@ public final class BatchLexer extends LexerBase {
 
     private IElementType quotedString(int pos) {
         int scan = pos + 1;
-        while (scan < bufferEnd && buffer.charAt(scan) != '"' && buffer.charAt(scan) != '\n') {
+        while (scan < bufferEnd) {
+            char ch = buffer.charAt(scan);
+            if (ch == '"') {
+                tokenEnd = scan + 1;
+                return BatchTokens.STRING;
+            }
+            if (ch == '\n') {
+                tokenEnd = scan;
+                return BatchTokens.STRING;
+            }
+            // 引号内的变量插值：在此截断 STRING 段，让 %VAR% / !VAR! / %~dp0 / %%i / %1
+            // 由 percent / delayedVariable 分支单独成 token
+            if ((ch == '%' || ch == '!') && closesInterpolation(scan, ch)) {
+                tokenEnd = scan;
+                return BatchTokens.STRING;
+            }
             scan++;
         }
-        // 闭合引号计入 token；行尾处截断，不吞换行符
-        tokenEnd = (scan < bufferEnd && buffer.charAt(scan) == '"') ? scan + 1 : scan;
+        tokenEnd = bufferEnd;
         return BatchTokens.STRING;
+    }
+
+    /**
+     * 判断 pos 处的 % 或 ! 是否构成可闭合的变量插值（%VAR%、!VAR!、%1、%~dp0、%%i）。
+     */
+    private boolean closesInterpolation(int pos, char open) {
+        if (pos + 1 >= bufferEnd) {
+            return false;
+        }
+        char next = buffer.charAt(pos + 1);
+        if (open == '%') {
+            // %1 / %~dp0 / %%i 单段形式，交给 percent 分支细分
+            if (next == '~' || next == '%' || Character.isDigit(next)) {
+                return true;
+            }
+        }
+        for (int i = pos + 1; i < bufferEnd; i++) {
+            char ch = buffer.charAt(i);
+            if (ch == '\n' || ch == '\r' || ch == ' ' || ch == '\t') {
+                return false;
+            }
+            if (ch == open) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private IElementType word(int pos) {
@@ -240,6 +280,20 @@ public final class BatchLexer extends LexerBase {
 
     private boolean isLineStart() {
         return tokenStart == 0 || buffer.charAt(tokenStart - 1) == '\n';
+    }
+
+    /**
+     * 行中 rem：前一个非空白字符为 & 时（& / && 后），rem 起注释作用直到行尾。
+     */
+    private boolean afterAmpersand() {
+        for (int i = tokenStart - 1; i >= 0; i--) {
+            char ch = buffer.charAt(i);
+            if (ch == ' ' || ch == '\t' || ch == '\r' || ch == '\n') {
+                continue;
+            }
+            return ch == '&';
+        }
+        return false;
     }
 
     private boolean matchesRem(int pos) {

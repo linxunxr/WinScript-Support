@@ -23,6 +23,9 @@ public final class PowerShellColorSettingsPage implements ColorSettingsPage {
             new AttributesDescriptor("Keyword", PowerShellHighlighterColors.KEYWORD),
             new AttributesDescriptor("Variable", PowerShellHighlighterColors.VARIABLE),
             new AttributesDescriptor("String", PowerShellHighlighterColors.STRING),
+            new AttributesDescriptor("Number", PowerShellHighlighterColors.NUMBER),
+            new AttributesDescriptor("Type expression", PowerShellHighlighterColors.TYPE),
+            new AttributesDescriptor("Escape character", PowerShellHighlighterColors.ESCAPE),
             new AttributesDescriptor("Operator", PowerShellHighlighterColors.OPERATOR),
             new AttributesDescriptor("Bad character", PowerShellHighlighterColors.BAD_CHARACTER),
     };
@@ -34,6 +37,9 @@ public final class PowerShellColorSettingsPage implements ColorSettingsPage {
         TAGS.put("keyword", PowerShellHighlighterColors.KEYWORD);
         TAGS.put("variable", PowerShellHighlighterColors.VARIABLE);
         TAGS.put("string", PowerShellHighlighterColors.STRING);
+        TAGS.put("number", PowerShellHighlighterColors.NUMBER);
+        TAGS.put("type", PowerShellHighlighterColors.TYPE);
+        TAGS.put("escape", PowerShellHighlighterColors.ESCAPE);
         TAGS.put("operator", PowerShellHighlighterColors.OPERATOR);
         TAGS.put("bad", PowerShellHighlighterColors.BAD_CHARACTER);
     }
@@ -41,11 +47,12 @@ public final class PowerShellColorSettingsPage implements ColorSettingsPage {
     private static final String DEMO_TEXT = String.join("\n",
             "<comment># PowerShell color scheme demo</comment>",
             "<keyword>function</keyword> Get-Greeting(<variable>$param</variable>) {",
-            "  <variable>$env:PATH</variable> <operator>|</operator> Out-Null",
-            "  <keyword>return</keyword> <string>\"hello $param\"</string>",
+            "  <type>[string]</type><variable>$env:PATH</variable> <operator>|</operator> Out-Null",
+            "  <variable>$size</variable> = <number>1GB</number> <operator>-gt</operator> <number>0x1F</number>",
+            "  <keyword>return</keyword> <string>\"hello `<escape>n</escape>$param\"</string>",
             "}",
             "<comment>&lt;# block comment #&gt;</comment>",
-            "<variable>$items</variable> <operator>-match</operator> <string>'pattern'</string> <operator>-gt</operator> 1");
+            "<variable>$items</variable> <operator>-match</operator> <string>'pattern'</string>");
 
     @Override
     public @NotNull String getDisplayName() {

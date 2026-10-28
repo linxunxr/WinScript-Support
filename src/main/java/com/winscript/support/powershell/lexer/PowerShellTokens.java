@@ -14,6 +14,9 @@ public final class PowerShellTokens {
     public static final IElementType KEYWORD = new IElementType("PS_KEYWORD", PowerShellLanguage.INSTANCE);
     public static final IElementType VARIABLE = new IElementType("PS_VARIABLE", PowerShellLanguage.INSTANCE);
     public static final IElementType STRING = new IElementType("PS_STRING", PowerShellLanguage.INSTANCE);
+    public static final IElementType NUMBER = new IElementType("PS_NUMBER", PowerShellLanguage.INSTANCE);
+    public static final IElementType TYPE = new IElementType("PS_TYPE", PowerShellLanguage.INSTANCE);
+    public static final IElementType ESCAPE = new IElementType("PS_ESCAPE", PowerShellLanguage.INSTANCE);
     public static final IElementType OPERATOR = new IElementType("PS_OPERATOR", PowerShellLanguage.INSTANCE);
     public static final IElementType WORD = new IElementType("PS_WORD", PowerShellLanguage.INSTANCE);
 

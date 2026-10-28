@@ -9,6 +9,9 @@ $env:PATH | Out-Null
 $script:Count = 0
 ${braced name} = 'braced variable'
 
+[string]$label = 'typed'
+$size = 1GB -gt 512MB
+
 function Get-Greeting {
     param([string]$Who)
     return "Hello, $Who!"

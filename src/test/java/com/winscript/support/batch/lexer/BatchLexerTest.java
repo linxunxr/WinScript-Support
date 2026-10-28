@@ -39,6 +39,20 @@ class BatchLexerTest {
         assertTrue(tokens.contains("BAD_CHARACTER"), tokens::toString);
     }
 
+    @Test
+    void highlightsVariablesInsideQuotedString() {
+        List<String> tokens = tokenize("echo \"Item %COUNT% of !NAME!\"\r\n");
+        assertTrue(tokens.contains("BATCH_STRING"), tokens::toString);
+        long variables = tokens.stream().filter("BATCH_VARIABLE"::equals).count();
+        assertTrue(variables >= 2, tokens::toString);
+    }
+
+    @Test
+    void lexesRemAfterAmpersand() {
+        List<String> tokens = tokenize("dir & rem trailing comment\r\n");
+        assertTrue(tokens.contains("BATCH_COMMENT"), tokens::toString);
+    }
+
     private static List<String> tokenize(String text) {
         List<String> result = new ArrayList<>();
         Lexer lexer = new BatchLexer();

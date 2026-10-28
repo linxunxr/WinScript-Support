@@ -20,6 +20,15 @@ public final class PowerShellHighlighterColors {
     public static final TextAttributesKey STRING = TextAttributesKey.createTextAttributesKey(
             "PS_STRING", DefaultLanguageHighlighterColors.STRING);
 
+    public static final TextAttributesKey NUMBER = TextAttributesKey.createTextAttributesKey(
+            "PS_NUMBER", DefaultLanguageHighlighterColors.NUMBER);
+
+    public static final TextAttributesKey TYPE = TextAttributesKey.createTextAttributesKey(
+            "PS_TYPE", DefaultLanguageHighlighterColors.METADATA);
+
+    public static final TextAttributesKey ESCAPE = TextAttributesKey.createTextAttributesKey(
+            "PS_ESCAPE", DefaultLanguageHighlighterColors.VALID_STRING_ESCAPE);
+
     public static final TextAttributesKey OPERATOR = TextAttributesKey.createTextAttributesKey(
             "PS_OPERATOR", DefaultLanguageHighlighterColors.OPERATION_SIGN);
 

@@ -38,6 +38,28 @@ class PowerShellLexerTest {
         assertTrue(tokens.contains("PS_STRING"), tokens::toString);
     }
 
+    @Test
+    void lexesNumbersAndTypeExpressions() {
+        List<String> tokens = tokenize("$size = 1GB -gt 0x1F\r\n");
+        assertTrue(tokens.contains("PS_NUMBER"), tokens::toString);
+        assertTrue(tokens.stream().filter("PS_NUMBER"::equals).count() >= 2, tokens::toString);
+
+        tokens = tokenize("[string]$name = [int[]]::Empty\r\n");
+        assertTrue(tokens.contains("PS_TYPE"), tokens::toString);
+        assertTrue(tokens.stream().filter("PS_TYPE"::equals).count() >= 2, tokens::toString);
+
+        // 数组索引不是类型表达式
+        tokens = tokenize("$items[0]\r\n");
+        assertTrue(!tokens.contains("PS_TYPE"), tokens::toString);
+    }
+
+    @Test
+    void survivesBareBacktickOutsideString() {
+        // 串外裸反引号（续行/转义）不得造成 0 宽 token 死循环
+        List<String> tokens = tokenize("Get-Process `\r\n  -Name idea\r\n");
+        assertTrue(tokens.contains("PS_ESCAPE"), tokens::toString);
+    }
+
     private static List<String> tokenize(String text) {
         List<String> result = new ArrayList<>();
         Lexer lexer = new PowerShellLexer();

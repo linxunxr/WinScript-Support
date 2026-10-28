@@ -20,6 +20,9 @@ public final class PowerShellSyntaxHighlighter extends SyntaxHighlighterBase {
             PowerShellTokens.KEYWORD, PowerShellHighlighterColors.KEYWORD,
             PowerShellTokens.VARIABLE, PowerShellHighlighterColors.VARIABLE,
             PowerShellTokens.STRING, PowerShellHighlighterColors.STRING,
+            PowerShellTokens.NUMBER, PowerShellHighlighterColors.NUMBER,
+            PowerShellTokens.TYPE, PowerShellHighlighterColors.TYPE,
+            PowerShellTokens.ESCAPE, PowerShellHighlighterColors.ESCAPE,
             PowerShellTokens.OPERATOR, PowerShellHighlighterColors.OPERATOR,
             PowerShellTokens.BAD_CHARACTER, PowerShellHighlighterColors.BAD_CHARACTER);
 
