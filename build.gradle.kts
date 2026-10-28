@@ -46,6 +46,7 @@ tasks {
 
 intellijPlatform {
     pluginConfiguration {
+        version = project.version.toString()
         ideaVersion {
             sinceBuild = provider { "253" }
         }

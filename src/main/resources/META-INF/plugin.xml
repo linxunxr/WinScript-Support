@@ -2,16 +2,26 @@
     <id>com.winscript.support</id>
     <name>WinScript Support</name>
     <version>0.1.0</version>
-    <vendor>linxunxr</vendor>
+    <vendor email="liulinxr@yeah.net" url="https://github.com/linxunxr/WinScript-Support">linxunxr</vendor>
 
     <description><![CDATA[
-    Out-of-the-box basic support for Windows scripts in IntelliJ Platform:
+    Out-of-the-box basic support for Windows scripts in IntelliJ Platform (2025.3+):
     <ul>
-        <li>Syntax highlighting for Batch (.bat/.cmd) and PowerShell (.ps1)</li>
-        <li>Run configurations for Batch / PowerShell scripts and arbitrary shell commands</li>
+        <li>Syntax highlighting for Batch (.bat/.cmd) and PowerShell (.ps1): keywords, variables, strings, labels, here-strings, numbers, type expressions</li>
+        <li>Run configurations: Batch script, PowerShell script (pwsh preferred, falls back to powershell.exe), and arbitrary shell command</li>
+        <li>Run .bat/.ps1 directly from the editor context menu</li>
+        <li>Path macros ($ProjectFileDir$, $FileDir$, ...) in parameters and working directories</li>
+        <li>Lightweight error annotations: unclosed % variables, quotes, parentheses, block comments, here-strings</li>
+        <li>Configurable interpreters, console encoding and default execution policy</li>
         <li>No external services required</li>
     </ul>
     ]]></description>
+
+    <change-notes><![CDATA[
+    <ul>
+        <li>0.1.0 — Initial release: syntax highlighting for Batch/PowerShell, three run configuration types, context-menu run, path macros, error annotations, global settings.</li>
+    </ul>
+    ]]></change-notes>
 
     <depends>com.intellij.modules.platform</depends>
 
