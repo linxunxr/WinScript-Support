@@ -15,3 +15,6 @@ out/
 # 系统杂物
 .DS_Store
 Thumbs.db
+
+# Playwright 浏览器自动化缓存
+.playwright-mcp/
