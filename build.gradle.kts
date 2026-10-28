@@ -52,5 +52,9 @@ intellijPlatform {
             sinceBuild = provider { "253" }
         }
     }
+    publishing {
+        // token 放 ~/.gradle/gradle.properties 的 publishToken（不入仓库）
+        token = providers.gradleProperty("publishToken")
+    }
     buildSearchableOptions = false
 }
