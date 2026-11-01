@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "com.winscript"
-version = "0.1.1"
+version = "0.1.2"
 
 repositories {
     mavenCentral()
@@ -55,6 +55,12 @@ intellijPlatform {
     publishing {
         // token 放 ~/.gradle/gradle.properties 的 publishToken（不入仓库）
         token = providers.gradleProperty("publishToken")
+    }
+    pluginVerification {
+        ides {
+            // 用本地已缓存的 IDE 发行目录，避免重复下载
+            local("C:/Users/linxun/.gradle/caches/9.8.2/transforms/12a51903e4379ceabeb604af01abbf99/transformed/idea-2025.3-win")
+        }
     }
     buildSearchableOptions = false
 }

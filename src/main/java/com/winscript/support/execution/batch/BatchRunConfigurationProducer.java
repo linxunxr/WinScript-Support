@@ -2,6 +2,7 @@ package com.winscript.support.execution.batch;
 
 import com.intellij.execution.actions.ConfigurationContext;
 import com.intellij.execution.actions.RunConfigurationProducer;
+import com.intellij.execution.configurations.ConfigurationFactory;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.util.Ref;
 import com.intellij.openapi.vfs.VirtualFile;
@@ -14,7 +15,14 @@ import org.jetbrains.annotations.NotNull;
 public final class BatchRunConfigurationProducer extends RunConfigurationProducer<BatchRunConfiguration> {
 
     public BatchRunConfigurationProducer() {
-        super(BatchRunConfigurationType.getInstance().getConfigurationFactories()[0]);
+        // RunConfigurationProducer 的三个带 type/factory 参数构造器均已废弃，
+        // 用 boolean 版（参数无实际作用）并覆写 getConfigurationFactory()
+        super(true);
+    }
+
+    @Override
+    public @NotNull ConfigurationFactory getConfigurationFactory() {
+        return BatchRunConfigurationType.getInstance().getConfigurationFactories()[0];
     }
 
     @Override

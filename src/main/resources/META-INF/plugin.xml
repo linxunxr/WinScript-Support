@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>com.winscript.support</id>
     <name>WinScript Support</name>
-    <version>0.1.1</version>
+    <version>0.1.2</version>
     <vendor email="liulinxr@yeah.net" url="https://github.com/linxunxr/WinScript-Support">linxunxr</vendor>
 
     <description><![CDATA[
@@ -19,6 +19,7 @@
 
     <change-notes><![CDATA[
     <ul>
+        <li>0.1.2 — Eliminate remaining deprecated RunConfigurationProducer(ConfigurationFactory) constructor usages (verified locally with Plugin Verifier: zero deprecated API).
         <li>0.1.1 — Replace deprecated API usages flagged by Plugin Verifier (RunConfigurationProducer constructor, FileChooserDescriptorFactory); no functional changes.</li>
         <li>0.1.0 — Initial release: syntax highlighting for Batch/PowerShell, three run configuration types, context-menu run, path macros, error annotations, global settings.</li>
     </ul>
