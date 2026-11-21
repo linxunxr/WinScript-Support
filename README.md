@@ -1,6 +1,6 @@
 # WinScript Support
 
-面向 IntelliJ 平台（2025.3+ 统一免费版）的 Windows 脚本支持插件：Batch（`.bat` / `.cmd`）与 PowerShell（`.ps1`）的语法高亮、脚本运行配置与空命令执行，不强制用户安装外部服务。已发布至 [JetBrains Marketplace](https://plugins.jetbrains.com/plugin/35582-winscript-support)（插件 ID 35582，v0.1.0 审核中）。
+面向 IntelliJ 平台（2025.3+ 统一免费版）的 Windows 脚本支持插件：Batch（`.bat` / `.cmd`）与 PowerShell（`.ps1`）的语法高亮、脚本运行配置与空命令执行，不强制用户安装外部服务。已发布至 [JetBrains Marketplace](https://plugins.jetbrains.com/plugin/35582-winscript-support)（插件 ID 35582，v0.1.2 审核中）。源码托管于 [GitHub](https://github.com/linxunxr/WinScript-Support)。
 
 设计决策与范围见[插件规格设计文档.md](插件规格设计文档.md)。
 
@@ -15,24 +15,30 @@
 
 ## 开发环境
 
-- JDK 21：本机位于 `D:\400env\jdk-21`；机器相关路径经 `~/.gradle/gradle.properties` 的 `org.gradle.java.home` 配置，不入仓库
+- JDK 21：由 `build.gradle.kts` 的 toolchain 固定；本机 JDK 路径按需写入 `~/.gradle/gradle.properties` 的 `org.gradle.java.home`（不入仓库）
 - Gradle 9.8.2（wrapper 内置，发行版走腾讯镜像）
 
 ## 常用命令
 
 ```bash
-# Git Bash（Windows）
-JAVA_HOME=/d/400env/jdk-21 ./gradlew test        # 单元测试
-JAVA_HOME=/d/400env/jdk-21 ./gradlew buildPlugin # 打包到 build/distributions/
-JAVA_HOME=/d/400env/jdk-21 ./gradlew runIde      # 启动沙箱 IDE 手测
+# 若已配置 org.gradle.java.home，可直接运行：
+./gradlew test        # 单元测试
+./gradlew buildPlugin # 打包到 build/distributions/
+./gradlew runIde      # 启动沙箱 IDE 手测
 ```
+
+Windows 下若未配置 `org.gradle.java.home`，可在命令前加 `JAVA_HOME=/path/to/jdk-21`（Git Bash），或先设置系统环境变量。
 
 ## 发布流程（JetBrains Marketplace）
 
 1. `./gradlew buildPlugin` 产出 `build/distributions/winscript-support-<version>.zip`；
 2. 首次发布：登录 [plugins.jetbrains.com](https://plugins.jetbrains.com) 手动上传 zip 创建插件页面（描述与标签已在 plugin.xml 内）；
 3. 后续版本：Marketplace 要求签名发布——在 JetBrains 账号生成上传 Token 与签名证书，按 IntelliJ Platform Gradle Plugin 文档配置 `publishPlugin` 任务后执行 `./gradlew publishPlugin`；
-4. 发布前建议跑一次 `runPluginVerifier` 校验 API 兼容性（需在 `build.gradle.kts` 配置 `pluginVerification.ides`，会额外下载 IDE）。
+4. 发布前建议跑一次 `./gradlew verifyPlugin` 校验 API 兼容性（验证目标由 `build.gradle.kts` 的 `pluginVerification.ides` 决定，当前复用构建时已解析的平台，无需额外下载 IDE）。
+
+## 许可证
+
+本项目采用 [Apache License 2.0](LICENSE)。
 
 ## 更新记录
 
@@ -41,3 +47,4 @@ JAVA_HOME=/d/400env/jdk-21 ./gradlew runIde      # 启动沙箱 IDE 手测
 | 2026-10-24 | 仓库建立：提交插件规格设计文档 v0.1。                                                                        |
 | 2026-10-28 | M1–M3 交付：工程骨架与语言层、三类运行配置与右键运行、宏展开、错误标注、全局设置与配色页；补开发与发布文档。 |
 | 2026-10-28 | v0.1.0 发布至 JetBrains Marketplace（插件 ID 35582，待审核后公开）。                                          |
+| 2026-11-21 | 开源配置：补 Apache-2.0 LICENSE，移除 README 与构建脚本中的机器相关路径，verifier 改用可移植的平台引用。     |

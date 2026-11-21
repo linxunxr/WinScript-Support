@@ -58,8 +58,9 @@ intellijPlatform {
     }
     pluginVerification {
         ides {
-            // 用本地已缓存的 IDE 发行目录，避免重复下载
-            local("C:/Users/linxun/.gradle/caches/9.8.2/transforms/12a51903e4379ceabeb604af01abbf99/transformed/idea-2025.3-win")
+            // 复用构建时已解析的 IntelliJ Platform（版本由 gradle.properties 的 platformVersion 决定），
+            // 避免硬编码本机缓存路径，让其他开发者/构建机也能直接跑 verifyPlugin
+            current()
         }
     }
     buildSearchableOptions = false
