@@ -1,6 +1,6 @@
 # WinScript Support
 
-面向 IntelliJ 平台（2025.3+ 统一免费版）的 Windows 脚本支持插件：Batch（`.bat` / `.cmd`）与 PowerShell（`.ps1`）的语法高亮、脚本运行配置与空命令执行，不强制用户安装外部服务。已发布至 [JetBrains Marketplace](https://plugins.jetbrains.com/plugin/35582-winscript-support)（插件 ID 35582，v0.1.2 审核中）。源码托管于 [GitHub](https://github.com/linxunxr/WinScript-Support)。
+面向 IntelliJ 平台（2025.3+ 统一免费版）的 Windows 脚本支持插件：Batch（`.bat` / `.cmd`）与 PowerShell（`.ps1`）的语法高亮、脚本运行配置与空命令执行，不强制用户安装外部服务。已发布至 [JetBrains Marketplace](https://plugins.jetbrains.com/plugin/35582-winscript-support)（插件 ID 35582，v0.2.0 审核中）。源码托管于 [GitHub](https://github.com/linxunxr/WinScript-Support)。
 
 设计决策与范围见[插件规格设计文档.md](插件规格设计文档.md)。
 
@@ -46,5 +46,6 @@ Windows 下若未配置 `org.gradle.java.home`，可在命令前加 `JAVA_HOME=/
 |------------|--------------------------------------------------------------------------------------------------------------|
 | 2026-10-24 | 仓库建立：提交插件规格设计文档 v0.1。                                                                        |
 | 2026-10-28 | M1–M3 交付：工程骨架与语言层、三类运行配置与右键运行、宏展开、错误标注、全局设置与配色页；补开发与发布文档。 |
-| 2026-10-28 | v0.1.0 发布至 JetBrains Marketplace（插件 ID 35582，待审核后公开）。                                          |
+| 2026-10-28 | v0.1.0 发布至 JetBrains Marketplace（插件 ID 35582，待审核后公开）。                                         |
 | 2026-11-21 | 开源配置：补 Apache-2.0 LICENSE，移除 README 与构建脚本中的机器相关路径，verifier 改用可移植的平台引用。     |
+| 2026-11-23 | v0.2.0 上传重新送审：无功能变更，仅升版本号以触发重新审核；源码仓库已于 11-21 转公开。                       |
